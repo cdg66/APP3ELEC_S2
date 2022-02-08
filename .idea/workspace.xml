@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2c4130b6-a930-46a6-a081-8a8161d86344" name="Changes" comment="Premier code qui marche">
+    <list default="true" id="2c4130b6-a930-46a6-a081-8a8161d86344" name="Changes" comment="Bon fichier data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/muon.txt" beforeDir="false" afterPath="$PROJECT_DIR$/muon.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/muon.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +29,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/OneDrive - USherbrooke/Documents/Université de Sherbrooke/S2/APP3_Analyse et représentation de données scientifiques/Exemple_etienne/S2GE_APP3_Laboratoire_CodeExercice_c.txt" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/muon.txt" />
   </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="convertion_cpp_in_python" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -104,7 +104,14 @@
       <option name="project" value="LOCAL" />
       <updated>1644333138177</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Bon fichier data">
+      <created>1644338256505</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1644338256505</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -122,15 +129,16 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="test" />
     <MESSAGE value="Premier code qui marche" />
-    <option name="LAST_COMMIT_MESSAGE" value="Premier code qui marche" />
+    <MESSAGE value="Bon fichier data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bon fichier data" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/main.py</url>
-          <line>9</line>
-          <option name="timeStamp" value="2" />
+          <line>5</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
