@@ -27,16 +27,11 @@ tempsmortcumul = axis(a, 3)
 temeperatue = axis(a, 4)
 
 # data processing
-#tensionsort = np.sort(tension)
-#print(tension)
-# ploting
 
 histogramme(tension, 100, plt)
+
+#ploting
 plt.show()
-#plt.plot(temps[0:10], temeperatue[0:10], ".")
-#plt.show()
-#plt.legend()
-#print()
 
 
 
