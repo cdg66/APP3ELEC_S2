@@ -8,6 +8,15 @@ def axis(array, colum):
     for i in range(len(array)):
         ret = np.append(ret, array[i][colum])
     return ret
+
+
+def histogramme(x, width, plt):
+    histmin = np.floor(min(x))
+    histmax = np.ceil(max(x)) + width
+    bins = np.arange(histmin, histmax, width)
+    plt.hist(x, bins=bins)
+#    plt.show()
+
 # reteving data
 a = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Primaire.csv', delimiter=',', dtype=float)
 # isolate axis
@@ -18,14 +27,16 @@ tempsmortcumul = axis(a, 3)
 temeperatue = axis(a, 4)
 
 # data processing
-
-
+#tensionsort = np.sort(tension)
+#print(tension)
 # ploting
 
-plt.plot(temps[0:10], temeperatue[0:10], ".")
+histogramme(tension, 100, plt)
 plt.show()
+#plt.plot(temps[0:10], temeperatue[0:10], ".")
+#plt.show()
 #plt.legend()
-print()
+#print()
 
 
 
