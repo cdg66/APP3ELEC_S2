@@ -16,6 +16,12 @@ def histogramme(x, width, plt):
     plt.hist(x, bins=bins, histtype='step')
 #    plt.show()
 
+def annotation():
+    plt.ylabel('Rate/bin[s-1]')
+    plt.xlabel('Calculated SiPM peak voltage [mV]')
+    plt.title("Histogramme")
+    plt.legend(['All event', 'Non-coincident events','Coincident events'])
+
 
 def coincidance(T1, T2, DT):
     TR = np.zeros(len(T1))
@@ -68,6 +74,7 @@ def main():
     tensionNC = trisTR(coincidancetab, sec_tension, 0)
     plt.figure(1)
     histogramme(tensionC, 1, plt)
+    annotation()
     plt.show()
     plt.figure(2)
     histogramme(tensionNC, 1, plt)
