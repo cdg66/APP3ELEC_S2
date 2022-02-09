@@ -9,18 +9,26 @@ def axis(array, colum):
     return ret
 
 
-def histogramme(x, width, plt):
+def histogrammelog(x, width, color, plt):
     histmin = np.floor(min(x))
     histmax = np.ceil(max(x)) + width
     bins = np.arange(histmin, histmax, width)
-    plt.hist(x, bins=bins, histtype='step')
+    logbins = np.logspace(np.log10(bins[0]), np.log10(bins[-1]), len(bins))
+    plt.hist(x, color=color, bins=logbins, histtype='step')
+    plt.xscale('log')
 #    plt.show()
 
+def histogramme(x, width, color, plt):
+    histmin = np.floor(min(x))
+    histmax = np.ceil(max(x)) + width
+    bins = np.arange(histmin, histmax, width)
+    plt.hist(x, color=color, bins=bins, histtype='step')
+#    plt.show()
 
 def coincidance(T1, T2, DT):
     TR = np.zeros(len(T1))
     dernierecoincidence = 0
-    for i in range(0, len(T1)):
+    for i in range(len(T1)):
 
         for j in range(dernierecoincidence, len(T1)):
 
@@ -45,7 +53,9 @@ def trisTR(TR, tension, C):
         if (TR[i] == C):
             ret = np.append(ret, tension[i])
     return ret
+
 def main():
+    bins = 30
     # reteving datas
     prim = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Primaire.csv', delimiter=',', dtype=float)
     sec = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Secondaire.csv', delimiter=',', dtype=float)
@@ -66,17 +76,12 @@ def main():
     coincidancetab = coincidance(temps_sec, temps_prim, 0.01)
     tensionC = trisTR(coincidancetab, sec_tension, 1)
     tensionNC = trisTR(coincidancetab, sec_tension, 0)
-    plt.figure(1)
-    histogramme(tensionC, 1, plt)
-    plt.show()
-    plt.figure(2)
-    histogramme(tensionNC, 1, plt)
-    plt.show()
-    plt.figure(3)
-    histogramme(sec_tension, 1, plt)
-    plt.show()
     # ploting
-    #plt.show()
+    histogrammelog(tensionC,  bins, "red", plt)
+    histogrammelog(tensionNC, bins, "green", plt)
+    histogrammelog(sec_tension,  bins, "blue", plt)
+
+    plt.show()
 
 
 if __name__ == '__main__':
