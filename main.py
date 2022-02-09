@@ -13,8 +13,8 @@ def histogramme(x, width, plt):
     histmin = np.floor(min(x))
     histmax = np.ceil(max(x)) + width
     bins = np.arange(histmin, histmax, width)
-    plt.hist(x, bins=bins)
-    plt.show()
+    plt.hist(x, bins=bins, histtype='step')
+#    plt.show()
 
 
 def coincidance(T1, T2, DT):
@@ -39,6 +39,12 @@ def coincidance(T1, T2, DT):
 
     return TR
 
+def trisTR(TR, tension, C):
+    ret = np.array([])
+    for i in range(0, len(TR)):
+        if (TR[i] == C):
+            ret = np.append(ret, tension[i])
+    return ret
 def main():
     # reteving datas
     prim = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Primaire.csv', delimiter=',', dtype=float)
@@ -58,11 +64,19 @@ def main():
 
     # data processing
     coincidancetab = coincidance(temps_sec, temps_prim, 0.01)
-
-     histogramme(tension, 100, plt)
-
-    # ploting
+    tensionC = trisTR(coincidancetab, sec_tension, 1)
+    tensionNC = trisTR(coincidancetab, sec_tension, 0)
+    plt.figure(1)
+    histogramme(tensionC, 1, plt)
     plt.show()
+    plt.figure(2)
+    histogramme(tensionNC, 1, plt)
+    plt.show()
+    plt.figure(3)
+    histogramme(sec_tension, 1, plt)
+    plt.show()
+    # ploting
+    #plt.show()
 
 
 if __name__ == '__main__':
