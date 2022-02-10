@@ -9,11 +9,17 @@ def axis(array, colum):
     return ret
 
 
-def histogramme(x, width, plt):
+def histogrammelog(x, y, width, color, plt):
+    plt.hist(x, color=color, bins=np.logspace(np.log10(1), np.log10(500)), histtype='step')
+    plt.xscale("log")
+    #plt.step(hist, )
+    #plt.step(x, (np.append( histArray, 0) / max(y)), color=color)
+
+def histogramme(x, width, color, plt):
     histmin = np.floor(min(x))
     histmax = np.ceil(max(x)) + width
     bins = np.arange(histmin, histmax, width)
-    plt.hist(x, bins=bins, histtype='step')
+    plt.hist(x, color=color, bins=bins, histtype='step')
 #    plt.show()
 
 def annotation():
@@ -24,12 +30,11 @@ def annotation():
 
 def save_image(name, fig):
     plt.figure(fig).savefig('leqf2501-gauc1102-'+name+'.png')
-#test
 
 def coincidance(T1, T2, DT):
     TR = np.zeros(len(T1))
     dernierecoincidence = 0
-    for i in range(0, len(T1)):
+    for i in range(len(T1)):
 
         for j in range(dernierecoincidence, len(T1)):
 
@@ -49,12 +54,16 @@ def coincidance(T1, T2, DT):
     return TR
 
 def trisTR(TR, tension, C):
-    ret = np.array([])
+    ret = np.zeros(len(TR))
     for i in range(0, len(TR)):
-        if (TR[i] == C):
-            ret = np.append(ret, tension[i])
+        if TR[i] == C:
+            ret[i] = tension[i]
+        else:
+            ret[i] = 0
     return ret
+
 def main():
+    bins = 10
     # reteving datas
     prim = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Primaire.csv', delimiter=',', dtype=float)
     sec = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Secondaire.csv', delimiter=',', dtype=float)
@@ -73,22 +82,20 @@ def main():
 
     # data processing
     coincidancetab = coincidance(temps_sec, temps_prim, 0.01)
+
+
     tensionC = trisTR(coincidancetab, sec_tension, 1)
+    tempsC = trisTR(coincidancetab, temps_sec, 1)
     tensionNC = trisTR(coincidancetab, sec_tension, 0)
     fig = plt.figure(1)
-    histogramme(tensionC, 1, plt)
+
+    # ploting
+    histogrammelog(tensionC, temps_sec, bins, "red", plt)
+    histogrammelog(tensionNC, temps_sec, bins, "green", plt)
+    histogrammelog(sec_tension, temps_sec,  bins, "blue", plt)
     annotation()
     save_image('test', fig)
-
     plt.show()
-    plt.figure(2)
-    histogramme(tensionNC, 1, plt)
-    plt.show()
-    plt.figure(3)
-    histogramme(sec_tension, 1, plt)
-    plt.show()
-    # ploting
-    #plt.show()
 
 
 if __name__ == '__main__':
