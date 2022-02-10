@@ -2,48 +2,38 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-def axis(array, colum):
-    ret = np.array([])
-    for i in range(len(array)):
-        ret = np.append(ret, array[i][colum])
-    return ret
-
 '''def integration(x, y):
     integral = 0
     for i in range(len(x)):
         integral = integral + ((x[i+1] - x[i])*y[i])
     print(integral)'''
 
-def histogrammelog_tempsmort(x, y, width, tempsmorttotal, color, plt):
-    plt.figure(1)
+def histogrammelog_tempsmort(x, y, width, tempsmorttotal, color, plt, figtemp, fig):
+    plt.figure(figtemp)
     Ylog, Xlog, bs  = plt.hist(x, color=color, bins=np.logspace(np.log10(10), np.log10(500), 20), histtype='step')
     Ylog = np.append(Ylog, 0)
     Ylog = (Ylog/ np.ceil(max(y) - tempsmorttotal))*1000
-    plt.close(1)
-    plt.figure(2)
+    plt.close(figtemp)
+    plt.figure(fig)
     plt.step(Xlog, Ylog, color=color)
     plt.xscale("log")
 
 
-def histogrammelog(x, y, width, color, plt):
-    plt.figure(1)
+def histogrammelog(x, y, color, plt, figtemp, fig):
+    plt.figure(figtemp)
     Ylog, Xlog, bs  = plt.hist(x, color=color, bins=np.logspace(np.log10(10), np.log10(500), 20), histtype='step')
     Ylog = np.append(Ylog, 0)
     Ylog = (Ylog/ np.ceil(max(y)))*1000
-    plt.close(1)
-    plt.figure(2)
+    plt.close()
+    plt.figure(fig)
     plt.step(Xlog, Ylog, color=color)
     plt.xscale("log")
-    #integration(Xlog, Ylog)
-    #plt.step(hist, )
-    #plt.step(x, (np.append( histArray, 0) / max(y)), color=color)
 
-def histogramme(x, width, color, plt):
+def histogramme(x, width, color, plt, fig):
     histmin = np.floor(min(x))
     histmax = np.ceil(max(x)) + width
     bins = np.arange(histmin, histmax, width)
     plt.hist(x, color=color, bins=bins, histtype='step')
-#    plt.show()
 
 def annotation(name):
     plt.ylabel('Rate/bin[s-1]')
@@ -85,49 +75,35 @@ def trisTR(TR, tension, C):
             ret[i] = 0
     return ret
 
+
 def main():
     bins = 10
-    # reteving datas
-    prim = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Primaire.csv', delimiter=',', dtype=float)
-    sec = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Secondaire.csv', delimiter=',', dtype=float)
-    # isolate axis
-    # index
-    index = axis(prim, 0)
-    # tension
-    prim_tension = axis(prim, 2)
-    sec_tension = axis(sec, 2)
-    # temps
-    temps_prim = axis(prim, 1)
-    temps_sec = axis(sec, 1)
+    # ----------------------------------reteving datas------------------------------------
+    temps_prim = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Primaire.csv', delimiter=',', dtype=float, unpack=True, usecols=(1))
+    index, temps_sec, sec_tension, tempsmortcumul = np.genfromtxt('S2GE_APP3_Problematique_Detecteur_Secondaire.csv', delimiter=',', dtype=float, unpack=True, usecols=(0, 1, 2, 3))
 
-    tempsmortcumul = axis(sec, 3)
+    # ------------------------------------data processing------------------------------------
     tempsmorttotal = np.sum(tempsmortcumul)
-    # temeperatue = axis(prim, 4)
-
-    # data processing
     coincidancetab = coincidance(temps_sec, temps_prim, 0.01)
-
-
     tensionC = trisTR(coincidancetab, sec_tension, 1)
     tempsC = trisTR(coincidancetab, temps_sec, 1)
     tensionNC = trisTR(coincidancetab, sec_tension, 0)
-    fig = plt.figure(1)
 
-    # ploting
-    histogrammelog_tempsmort(sec_tension, temps_sec, bins, tempsmorttotal, "blue", plt)
-    histogrammelog_tempsmort(tensionNC, temps_sec, bins, tempsmorttotal, "green", plt)
-    histogrammelog_tempsmort(tensionC, temps_sec, bins, tempsmorttotal, "red", plt)
+    # ------------------------------------ploting--------------------------------------------
+    fig = plt.figure(1)
+    fig2 = plt.figure(2)
+    histogrammelog_tempsmort(sec_tension, temps_sec, bins, tempsmorttotal, "blue", plt, 3, 1)
+    histogrammelog_tempsmort(tensionNC, temps_sec, bins, tempsmorttotal, "green", plt, 3, 1)
+    histogrammelog_tempsmort(tensionC, temps_sec, bins, tempsmorttotal, "red", plt, 3, 1)
 
     annotation( name = 'Historgramme avec temps mort ')
-    save_image('histo_avec_temps_mort', fig)
-    plt.show()
+    save_image('histo_avec_temps_mort', 1)
 
-    histogrammelog(sec_tension, temps_sec, bins, "blue", plt)
-    histogrammelog(tensionNC, temps_sec, bins, "green", plt)
-    histogrammelog(tensionC, temps_sec, bins, "red", plt)
-
+    histogrammelog(sec_tension, temps_sec, "blue", plt, 3, 2)
+    histogrammelog(tensionNC, temps_sec, "green", plt, 3, 2)
+    histogrammelog(tensionC, temps_sec, "red", plt, 3, 2)
     annotation( name = 'Historgramme sans temps mort ')
-    save_image('histo_sans_temps', fig)
+    save_image('histo_sans_temps', 2 )
     plt.show()
 
 
