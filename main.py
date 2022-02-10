@@ -24,7 +24,7 @@ def annotation():
 
 def save_image(name, fig):
     plt.figure(fig).savefig('leqf2501-gauc1102-'+name+'.png')
-
+#test
 
 def coincidance(T1, T2, DT):
     TR = np.zeros(len(T1))
