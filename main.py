@@ -8,15 +8,23 @@ def axis(array, colum):
         ret = np.append(ret, array[i][colum])
     return ret
 
+'''def integration(x, y):
+    integral = 0
+    for i in range(len(x)):
+        integral = integral + ((x[i+1] - x[i])*y[i])
+    print(integral)'''
 
-def histogrammelog(x, y, width, color, plt):
+
+def histogrammelog(x, y, width, tempsmorttotal, color, plt):
     plt.figure(1)
     Ylog, Xlog, bs  = plt.hist(x, color=color, bins=np.logspace(np.log10(10), np.log10(500), 20), histtype='step')
     Ylog = np.append(Ylog, 0)
+    Ylog = (Ylog/ np.ceil(max(y) - tempsmorttotal))*1000
     plt.close(1)
     plt.figure(2)
-    plt.step(Xlog, (Ylog/ np.ceil(max(y)))*1000, color=color)
+    plt.step(Xlog, Ylog, color=color)
     plt.xscale("log")
+    #integration(Xlog, Ylog)
     #plt.step(hist, )
     #plt.step(x, (np.append( histArray, 0) / max(y)), color=color)
 
@@ -82,7 +90,8 @@ def main():
     temps_prim = axis(prim, 1)
     temps_sec = axis(sec, 1)
 
-    # tempsmortcumul = axis(prim, 3)
+    tempsmortcumul = axis(sec, 3)
+    tempsmorttotal = np.sum(tempsmortcumul)
     # temeperatue = axis(prim, 4)
 
     # data processing
@@ -95,9 +104,9 @@ def main():
     fig = plt.figure(1)
 
     # ploting
-    histogrammelog(sec_tension, temps_sec, bins, "blue", plt)
-    histogrammelog(tensionNC, temps_sec, bins, "green", plt)
-    histogrammelog(tensionC, temps_sec, bins, "red", plt)
+    histogrammelog(sec_tension, temps_sec, bins, tempsmorttotal, "blue", plt)
+    histogrammelog(tensionNC, temps_sec, bins, tempsmorttotal, "green", plt)
+    histogrammelog(tensionC, temps_sec, bins, tempsmorttotal, "red", plt)
 
 
     annotation()
