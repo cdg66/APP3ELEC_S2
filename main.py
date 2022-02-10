@@ -22,6 +22,9 @@ def annotation():
     plt.title("Histogramme")
     plt.legend(['All event', 'Non-coincident events','Coincident events'])
 
+def save_image(name, fig):
+    plt.figure(fig).savefig('leqf2501-gauc1102-'+name+'.png')
+
 
 def coincidance(T1, T2, DT):
     TR = np.zeros(len(T1))
@@ -72,9 +75,11 @@ def main():
     coincidancetab = coincidance(temps_sec, temps_prim, 0.01)
     tensionC = trisTR(coincidancetab, sec_tension, 1)
     tensionNC = trisTR(coincidancetab, sec_tension, 0)
-    plt.figure(1)
+    fig = plt.figure(1)
     histogramme(tensionC, 1, plt)
     annotation()
+    save_image('test', fig)
+
     plt.show()
     plt.figure(2)
     histogramme(tensionNC, 1, plt)
