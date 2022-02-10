@@ -14,12 +14,22 @@ def axis(array, colum):
         integral = integral + ((x[i+1] - x[i])*y[i])
     print(integral)'''
 
-
-def histogrammelog(x, y, width, tempsmorttotal, color, plt):
+def histogrammelog_tempsmort(x, y, width, tempsmorttotal, color, plt):
     plt.figure(1)
     Ylog, Xlog, bs  = plt.hist(x, color=color, bins=np.logspace(np.log10(10), np.log10(500), 20), histtype='step')
     Ylog = np.append(Ylog, 0)
     Ylog = (Ylog/ np.ceil(max(y) - tempsmorttotal))*1000
+    plt.close(1)
+    plt.figure(2)
+    plt.step(Xlog, Ylog, color=color)
+    plt.xscale("log")
+
+
+def histogrammelog(x, y, width, color, plt):
+    plt.figure(1)
+    Ylog, Xlog, bs  = plt.hist(x, color=color, bins=np.logspace(np.log10(10), np.log10(500), 20), histtype='step')
+    Ylog = np.append(Ylog, 0)
+    Ylog = (Ylog/ np.ceil(max(y)))*1000
     plt.close(1)
     plt.figure(2)
     plt.step(Xlog, Ylog, color=color)
@@ -35,10 +45,10 @@ def histogramme(x, width, color, plt):
     plt.hist(x, color=color, bins=bins, histtype='step')
 #    plt.show()
 
-def annotation():
+def annotation(name):
     plt.ylabel('Rate/bin[s-1]')
     plt.xlabel('Calculated SiPM peak voltage [mV]')
-    plt.title("Histogramme")
+    plt.title(name)
     plt.legend(['All event', 'Non-coincident events','Coincident events'])
 
 def save_image(name, fig):
@@ -104,13 +114,20 @@ def main():
     fig = plt.figure(1)
 
     # ploting
-    histogrammelog(sec_tension, temps_sec, bins, tempsmorttotal, "blue", plt)
-    histogrammelog(tensionNC, temps_sec, bins, tempsmorttotal, "green", plt)
-    histogrammelog(tensionC, temps_sec, bins, tempsmorttotal, "red", plt)
+    histogrammelog_tempsmort(sec_tension, temps_sec, bins, tempsmorttotal, "blue", plt)
+    histogrammelog_tempsmort(tensionNC, temps_sec, bins, tempsmorttotal, "green", plt)
+    histogrammelog_tempsmort(tensionC, temps_sec, bins, tempsmorttotal, "red", plt)
 
+    annotation( name = 'Historgramme avec temps mort ')
+    save_image('histo_avec_temps_mort', fig)
+    plt.show()
 
-    annotation()
-    save_image('test', fig)
+    histogrammelog(sec_tension, temps_sec, bins, "blue", plt)
+    histogrammelog(tensionNC, temps_sec, bins, "green", plt)
+    histogrammelog(tensionC, temps_sec, bins, "red", plt)
+
+    annotation( name = 'Historgramme sans temps mort ')
+    save_image('histo_sans_temps', fig)
     plt.show()
 
 
