@@ -10,7 +10,8 @@ def axis(array, colum):
 
 
 def histogrammelog(x, y, width, color, plt):
-    plt.hist(x, color=color, bins=np.logspace(np.log10(1), np.log10(500)), histtype='step')
+    Xlog, Ylog, bs  = plt.hist(x, color=color, bins=np.logspace(np.log10(1), np.log10(500)), histtype='step')
+
     plt.xscale("log")
     #plt.step(hist, )
     #plt.step(x, (np.append( histArray, 0) / max(y)), color=color)
@@ -90,9 +91,11 @@ def main():
     fig = plt.figure(1)
 
     # ploting
-    histogrammelog(tensionC, temps_sec, bins, "red", plt)
+    histogrammelog(sec_tension, temps_sec, bins, "blue", plt)
     histogrammelog(tensionNC, temps_sec, bins, "green", plt)
-    histogrammelog(sec_tension, temps_sec,  bins, "blue", plt)
+    histogrammelog(tensionC, temps_sec, bins, "red", plt)
+
+
     annotation()
     save_image('test', fig)
     plt.show()
