@@ -22,6 +22,15 @@ def histogramme(x, width, color, plt):
     plt.hist(x, color=color, bins=bins, histtype='step')
 #    plt.show()
 
+def annotation():
+    plt.ylabel('Rate/bin[s-1]')
+    plt.xlabel('Calculated SiPM peak voltage [mV]')
+    plt.title("Histogramme")
+    plt.legend(['All event', 'Non-coincident events','Coincident events'])
+
+def save_image(name, fig):
+    plt.figure(fig).savefig('leqf2501-gauc1102-'+name+'.png')
+
 def coincidance(T1, T2, DT):
     TR = np.zeros(len(T1))
     dernierecoincidence = 0
@@ -78,13 +87,14 @@ def main():
     tensionC = trisTR(coincidancetab, sec_tension, 1)
     tempsC = trisTR(coincidancetab, temps_sec, 1)
     tensionNC = trisTR(coincidancetab, sec_tension, 0)
-    tempsNC = trisTR(coincidancetab, temps_sec, 0)
+    fig = plt.figure(1)
 
     # ploting
     histogrammelog(tensionC, temps_sec, bins, "red", plt)
     histogrammelog(tensionNC, temps_sec, bins, "green", plt)
     histogrammelog(sec_tension, temps_sec,  bins, "blue", plt)
-
+    annotation()
+    save_image('test', fig)
     plt.show()
 
 
