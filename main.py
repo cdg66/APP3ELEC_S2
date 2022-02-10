@@ -10,8 +10,12 @@ def axis(array, colum):
 
 
 def histogrammelog(x, y, width, color, plt):
-    Xlog, Ylog, bs  = plt.hist(x, color=color, bins=np.logspace(np.log10(1), np.log10(500)), histtype='step')
-
+    plt.figure(1)
+    Ylog, Xlog, bs  = plt.hist(x, color=color, bins=np.logspace(np.log10(10), np.log10(500), 20), histtype='step')
+    Ylog = np.append(Ylog, 0)
+    plt.close(1)
+    plt.figure(2)
+    plt.step(Xlog, (Ylog/ np.ceil(max(y)))*1000, color=color)
     plt.xscale("log")
     #plt.step(hist, )
     #plt.step(x, (np.append( histArray, 0) / max(y)), color=color)
